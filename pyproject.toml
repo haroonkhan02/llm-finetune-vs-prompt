@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-finetune-vs-prompt"
+version = "0.1.0"
+description = "LoRA fine-tuning a small LLM on MLX versus prompting it and a larger model, on intent and slot extraction: quality, latency and cost."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Muhammad Haroon Khan" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+mlx = ["mlx-lm>=0.32,<0.33"]          # LoRA training and local inference on Apple silicon
+anthropic = ["anthropic>=2.8,<3"]
+
+[project.scripts]
+ftvp-download = "ftvp.download:main"
+ftvp-check = "ftvp.check:main"
+ftvp-prepare = "ftvp.sft:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["data", "adapters", "outputs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]

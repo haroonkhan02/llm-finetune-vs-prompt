@@ -1,0 +1,21 @@
+# MASSIVE 1.1 (Amazon, CC BY 4.0), English (en-US) only.
+dataset:
+  url: https://amazon-massive-nlu-dataset.s3.amazonaws.com/amazon-massive-dataset-1.1.tar.gz
+  sha256: 4cba5faa11c71437928e17cb1b9b3d8b8e727e7ea363a3a9a8045e19c0491577
+  locale: en-US
+  raw_dir: data/raw
+
+# One fixed, seeded test subset shared by every system so the slow ones (7B few-shot,
+# Claude) are scored on exactly the same utterances as the fast ones.
+eval:
+  test_subset: 1000
+  seed: 0
+
+prompting:
+  few_shot_k: 8            # examples retrieved from train by word overlap
+
+sft:
+  out_dir: data/sft        # mlx-lm LoRA format: train.jsonl / valid.jsonl / test.jsonl
+  valid_size: 500          # dev examples used for validation loss during training
+
+reports_dir: reports
