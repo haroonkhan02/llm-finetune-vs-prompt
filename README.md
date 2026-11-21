@@ -18,9 +18,9 @@ per 1,000 requests.
 → {"intent": "alarm_set", "slots": [["time", "five am"], ["date", "this week"]]}
 ```
 
-**Status: work in progress.** The data pipeline, output parser, metrics, prompts and the
-LoRA training data are done and tested. Training, the model runs and the comparison come
-next; no model results yet.
+**Status: work in progress.** The LoRA model is trained and all five local systems are
+scored below. Error analysis, cost per 1,000 requests and a fused-adapter speed check come
+next.
 
 ## Task and data
 
@@ -42,7 +42,28 @@ The 1-NN figure is the floor every model has to beat. The prompt lengths are the
 argument for fine-tuning: the tuned model learns the label list and the format, so it does
 not pay for them on every request.
 
-## Planned comparison
+## First results
+
+All systems on the same 1,000 test utterances, greedy decoding, one request at a time on an
+Apple M5. Full table with 95 % bootstrap intervals: [`reports/results.md`](reports/results.md).
+
+| System | Intent acc | Slot F1 | Exact match | Input tokens | Latency p50 |
+|---|---:|---:|---:|---:|---:|
+| Qwen2.5-0.5B zero-shot | 26.8 % | 6.7 % | 0.9 % | 529 | 0.28 s |
+| Qwen2.5-0.5B few-shot (k = 8) | 77.4 % | 58.8 % | 47.9 % | 797 | 0.24 s |
+| Qwen2.5-0.5B + LoRA | 83.1 % | 70.9 % | 60.6 % | 33 | 0.26 s |
+| Qwen2.5-7B zero-shot (4-bit) | 67.4 % | 30.6 % | 22.6 % | 529 | 1.34 s |
+| Qwen2.5-7B few-shot (4-bit) | 87.5 % | 71.4 % | 63.8 % | 797 | 1.57 s |
+
+Fifteen minutes of LoRA training lift the 0.5B model from unusable to roughly the level of
+a 7B model prompted with retrieved examples: slot F1 is the same within noise (paired
+difference 0.5 points, CI −2.6 to 3.9) and exact match is 3.2 points lower (CI 0.1 to 6.2),
+at about a sixth of the latency. Zero-shot, the 0.5B model invents intent names in about a
+third of its replies. The tuned model's short prompt does not make it faster yet, because
+decoding dominates and the adapter is applied unfused; the 7B model is also 4-bit while the
+0.5B runs in bf16, so speed is not a like-for-like hardware comparison.
+
+## Compared systems
 
 ```mermaid
 flowchart LR
@@ -60,7 +81,7 @@ flowchart LR
 | Retrieval baseline | none | intent of the nearest train utterance |
 | Zero-shot | Qwen2.5-0.5B-Instruct, Qwen2.5-7B-Instruct | instructions + all labels |
 | Few-shot | same two | + 8 nearest training examples as chat turns |
-| Fine-tuned | Qwen2.5-0.5B-Instruct + LoRA | one-line instruction |
+| Fine-tuned | Qwen2.5-0.5B-Instruct + LoRA (rank 16, 2 epochs) | one-line instruction |
 | API model (optional) | Claude | few-shot; requires an Anthropic API key |
 
 Metrics: intent accuracy, slot precision/recall/F1 on (type, value) pairs, exact match,
@@ -76,6 +97,8 @@ uv pip install -e ".[dev,mlx]"
 ftvp-download      # MASSIVE 1.1 archive (40 MB), keeps only en-US
 ftvp-check --tokenizer mlx-community/Qwen2.5-0.5B-Instruct-4bit
 ftvp-prepare       # data/sft/{train,valid,test}.jsonl for mlx_lm.lora
+python -m mlx_lm lora -c configs/lora.yaml | tee outputs/train.log   # ~15 min on an M5
+scripts/run_all.sh # five systems x 1,000 requests, then ftvp-report
 pytest -q
 ```
 
@@ -84,6 +107,7 @@ pytest -q
 ```text
 llm-finetune-vs-prompt/
 ├── configs/default.yaml     # dataset URL + checksum, eval subset, k, SFT split sizes
+├── configs/lora.yaml        # LoRA hyperparameters for mlx_lm.lora
 ├── src/ftvp/
 │   ├── download.py          # resumable download, checksum, extracts one locale
 │   ├── massive.py           # annotated utterance -> intent + (type, value) slots
@@ -91,8 +115,12 @@ llm-finetune-vs-prompt/
 │   ├── metrics.py           # intent / slot / exact-match scores, bootstrap CIs
 │   ├── prompts.py           # zero-shot, retrieved few-shot, fine-tuned prompts
 │   ├── sft.py               # mlx-lm chat-format training data
-│   └── check.py             # data stats, retrieval baseline, prompt lengths
-├── reports/                 # generated reports
+│   ├── check.py             # data stats, retrieval baseline, prompt lengths
+│   ├── backends.py          # MLX (+ LoRA adapter), Anthropic, fake
+│   ├── runner.py            # resumable runs, one JSON record per request
+│   └── report.py            # scores, intervals, paired comparison, training curve
+├── scripts/run_all.sh       # runs every local system in sequence
+├── reports/                 # data check, results, compact per-request runs
 └── tests/                   # synthetic fixtures, no data or model needed
 ```
 
@@ -105,6 +133,9 @@ llm-finetune-vs-prompt/
 | Parser forgives fences and prose, but records it | format compliance is a result, not a crash |
 | Few-shot examples retrieved by similarity | a stronger prompting baseline than fixed examples |
 | Same tokenizer family for 0.5B and 7B | prompt costs are directly comparable |
+| Loss on the answer only (`mask_prompt`) | the model should learn the labels, not the requests |
+| Warmup + cosine learning rate | a constant 1e-4 made the first steps worse than the base model |
+| Runs stored per request, re-scored from text | a parser fix never needs another model run |
 
 ## License
 
