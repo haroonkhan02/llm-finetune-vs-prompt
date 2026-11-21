@@ -29,6 +29,19 @@ _TRAIN = re.compile(r"^\s*(\d+)\s+([\d.]+)\s+[▼▲=]?\s*(\d+)\s")
 _VAL = re.compile(r"^\s*(\d+)\s+val\s+([\d.]+)")
 
 
+KEEP = ("id", "utt", "gold_intent", "gold_slots", "reply", "latency_s", "ttft_s",
+        "input_tokens", "output_tokens", "stop_reason", "cost_usd")
+
+
+def export_run(recs: list[dict], path: Path) -> Path:
+    """Compact copy of a run (everything ``summarise`` needs), small enough to commit."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        for r in sorted(recs, key=lambda r: int(r["id"]) if r["id"].isdigit() else r["id"]):
+            f.write(json.dumps({k: r[k] for k in KEEP if k in r}, ensure_ascii=False) + "\n")
+    return path
+
+
 def score_records(recs: list[dict]) -> list[ItemScore]:
     out = []
     for r in recs:
@@ -129,11 +142,15 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("names", nargs="+", help="run names in outputs/runs/")
     ap.add_argument("--ref", default=None, help="run to compare every other run with")
     ap.add_argument("--train-log", default=None, help="mlx_lm lora console log")
+    ap.add_argument("--runs-dir", default=RUNS_DIR,
+                    help="where the runs are (default outputs/runs; reports/runs = committed)")
+    ap.add_argument("--export", action="store_true",
+                    help="also write compact copies of the runs to reports/runs/")
     ap.add_argument("--n-boot", type=int, default=1000)
     ap.add_argument("--config", default=None)
     args = ap.parse_args(argv)
     cfg = load_config(args.config)
-    runs_dir = resolve(RUNS_DIR)
+    runs_dir = resolve(args.runs_dir)
     runs, metas = {}, {}
     for name in args.names:
         runs[name] = load_run(runs_dir / f"{name}.jsonl")
@@ -152,6 +169,12 @@ def main(argv: list[str] | None = None) -> None:
     n = max(len(r) for r in runs.values())
     out_dir = resolve(cfg.get("reports_dir", "reports"))
     out_dir.mkdir(parents=True, exist_ok=True)
+    if args.export:
+        for name, recs in runs.items():
+            export_run(recs, out_dir / "runs" / f"{name}.jsonl")
+            meta = runs_dir / f"{name}.meta.json"
+            if meta.exists():
+                (out_dir / "runs" / meta.name).write_text(meta.read_text())
     text = render(rows, metas, args.ref, comps, curve, n)
     (out_dir / "results.md").write_text(text, encoding="utf-8")
     (out_dir / "results.json").write_text(json.dumps(

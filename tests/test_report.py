@@ -59,3 +59,14 @@ def test_render_has_tables():
     text = render(rows, {"a": {"system": "finetuned", "backend": "fake"}}, None, {},
                   parse_lora_log(LOG), 2)
     assert "| a | finetuned | fake | 50.0" in text and "| 120 | 0.210 |" in text
+
+
+def test_export_run_is_compact_and_rescorable(tmp_path):
+    from ftvp.report import export_run
+    from ftvp.runner import load_run
+
+    recs = [dict(rec(i, GOOD), pred_intent="x", errors=[]) for i in (10, 2)]
+    path = export_run(recs, tmp_path / "runs" / "a.jsonl")
+    back = load_run(path)
+    assert [r["id"] for r in back] == ["2", "10"] and "pred_intent" not in back[0]
+    assert summarise("a", back, n_boot=20)["exact_match"] == 1.0
