@@ -1,0 +1,7 @@
+{
+  "name": "qwen7b-few",
+  "system": "few-shot",
+  "backend": "mlx:Qwen2.5-7B-Instruct-4bit",
+  "adapter": null,
+  "max_tokens": 128
+}

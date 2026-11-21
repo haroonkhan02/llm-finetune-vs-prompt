@@ -1,0 +1,7 @@
+{
+  "name": "qwen05b-few",
+  "system": "few-shot",
+  "backend": "mlx:Qwen2.5-0.5B-Instruct-bf16",
+  "adapter": null,
+  "max_tokens": 128
+}
