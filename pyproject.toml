@@ -23,6 +23,7 @@ anthropic = ["anthropic>=2.8,<3"]
 ftvp-download = "ftvp.download:main"
 ftvp-check = "ftvp.check:main"
 ftvp-prepare = "ftvp.sft:main"
+ftvp-run = "ftvp.runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
