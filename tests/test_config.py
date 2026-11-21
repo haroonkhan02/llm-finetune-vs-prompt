@@ -18,3 +18,13 @@ def test_missing_section_rejected(tmp_path):
 
 def test_resolve_relative_to_repo():
     assert resolve("data/raw") == REPO_ROOT / "data" / "raw"
+
+
+def test_lora_config_matches_prepared_data():
+    import yaml
+
+    lora = yaml.safe_load((REPO_ROOT / "configs" / "lora.yaml").read_text())
+    assert lora["data"] == load_config()["sft"]["out_dir"]
+    assert lora["mask_prompt"] is True and lora["fine_tune_type"] == "lora"
+    sched = lora["lr_schedule"]
+    assert sched["warmup"] + sched["arguments"][1] == lora["iters"]

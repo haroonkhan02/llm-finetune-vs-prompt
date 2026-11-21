@@ -1,0 +1,30 @@
+# LoRA fine-tune of Qwen2.5-0.5B-Instruct with mlx-lm (run via `ftvp-train`).
+# Data = data/sft from `ftvp-prepare`; the loss covers the JSON answer only (mask_prompt).
+model: mlx-community/Qwen2.5-0.5B-Instruct-bf16
+train: true
+data: data/sft
+adapter_path: adapters/qwen05b-lora
+fine_tune_type: lora
+mask_prompt: true
+num_layers: -1           # LoRA on all 24 transformer blocks
+batch_size: 16
+iters: 1440              # 2 epochs of the 11,514 training examples
+learning_rate: 5.0e-5
+lr_schedule:             # linear warmup, then cosine decay to 1e-6
+  name: cosine_decay
+  warmup: 100
+  warmup_init: 1.0e-7
+  arguments: [5.0e-5, 1340, 1.0e-6]
+optimizer: adam
+steps_per_report: 20
+steps_per_eval: 120
+val_batches: -1          # the full 500-example validation set
+save_every: 240
+max_seq_length: 256
+seed: 0
+lora_parameters:
+  rank: 16
+  scale: 20.0
+  dropout: 0.0
+  keys: ["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj",
+         "mlp.gate_proj", "mlp.up_proj", "mlp.down_proj"]
