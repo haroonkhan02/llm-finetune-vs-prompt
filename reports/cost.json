@@ -1,0 +1,62 @@
+{
+  "qwen05b-zero": {
+    "n": 1000,
+    "input_tokens_per_1k": 529348.0,
+    "output_tokens_per_1k": 31529.0,
+    "m5_seconds_per_1k": 328.33852241691784,
+    "requests_per_hour": 10964.29372191908,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": 0.06869929999999999,
+      "claude-sonnet-5-5": 1.3739859999999997,
+      "claude-opus-5-5": 2.7479719999999994
+    }
+  },
+  "qwen05b-few": {
+    "n": 1000,
+    "input_tokens_per_1k": 804003.0,
+    "output_tokens_per_1k": 19745.0,
+    "m5_seconds_per_1k": 263.40323770811665,
+    "requests_per_hour": 13667.257970417377,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": 0.09027280000000001,
+      "claude-sonnet-5-5": 1.8054560000000002,
+      "claude-opus-5-5": 3.6109120000000003
+    }
+  },
+  "qwen05b-lora": {
+    "n": 1000,
+    "input_tokens_per_1k": 33348.0,
+    "output_tokens_per_1k": 20554.0,
+    "m5_seconds_per_1k": 268.85734562322614,
+    "requests_per_hour": 13390.00052855168,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": null,
+      "claude-sonnet-5-5": null,
+      "claude-opus-5-5": null
+    }
+  },
+  "qwen7b-zero": {
+    "n": 1000,
+    "input_tokens_per_1k": 529348.0,
+    "output_tokens_per_1k": 22381.0,
+    "m5_seconds_per_1k": 1378.6410786283668,
+    "requests_per_hour": 2611.2670337530494,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": 0.0641253,
+      "claude-sonnet-5-5": 1.2825059999999997,
+      "claude-opus-5-5": 2.5650119999999994
+    }
+  },
+  "qwen7b-few": {
+    "n": 1000,
+    "input_tokens_per_1k": 804003.0,
+    "output_tokens_per_1k": 20848.0,
+    "m5_seconds_per_1k": 1616.8123952091264,
+    "requests_per_hour": 2226.603414636958,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": 0.09082430000000001,
+      "claude-sonnet-5-5": 1.816486,
+      "claude-opus-5-5": 3.632972
+    }
+  }
+}

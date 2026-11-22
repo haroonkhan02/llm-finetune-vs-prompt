@@ -26,6 +26,7 @@ ftvp-prepare = "ftvp.sft:main"
 ftvp-run = "ftvp.runner:main"
 ftvp-report = "ftvp.report:main"
 ftvp-errors = "ftvp.errors:main"
+ftvp-cost = "ftvp.cost:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
