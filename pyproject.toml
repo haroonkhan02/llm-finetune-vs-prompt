@@ -25,6 +25,7 @@ ftvp-check = "ftvp.check:main"
 ftvp-prepare = "ftvp.sft:main"
 ftvp-run = "ftvp.runner:main"
 ftvp-report = "ftvp.report:main"
+ftvp-errors = "ftvp.errors:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

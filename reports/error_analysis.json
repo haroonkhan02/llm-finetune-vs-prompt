@@ -1,0 +1,1135 @@
+{
+  "runs": {
+    "qwen05b-zero": {
+      "n": 1000,
+      "format_failures": 40,
+      "intent_errors": 732,
+      "invented_intent": 306,
+      "wrong_label": 386,
+      "intent_right_slots_wrong": 259,
+      "slot_error_kinds": {
+        "boundary": 21,
+        "wrong_type": 74,
+        "missed": 108,
+        "extra": 382,
+        "wrong_value": 20
+      },
+      "top_confusions": [
+        [
+          "play_music",
+          "play_audiobook",
+          23
+        ],
+        [
+          "qa_factoid",
+          "general_quirky",
+          16
+        ],
+        [
+          "iot_hue_lightoff",
+          "general_quirky",
+          14
+        ],
+        [
+          "general_quirky",
+          "general_greet",
+          11
+        ],
+        [
+          "qa_definition",
+          "general_quirky",
+          11
+        ],
+        [
+          "music_likeness",
+          "recommendation_movies",
+          10
+        ],
+        [
+          "play_music",
+          "music_query",
+          8
+        ],
+        [
+          "general_quirky",
+          "news_query",
+          8
+        ],
+        [
+          "transport_ticket",
+          "transport_query",
+          8
+        ],
+        [
+          "calendar_query",
+          "datetime_query",
+          7
+        ]
+      ],
+      "invented_examples": [
+        [
+          "reminder",
+          15
+        ],
+        [
+          "coffee_query",
+          9
+        ],
+        [
+          "currency",
+          8
+        ],
+        [
+          "time",
+          6
+        ],
+        [
+          "cook",
+          6
+        ],
+        [
+          "lists_add",
+          6
+        ],
+        [
+          "event_query",
+          5
+        ],
+        [
+          "stock",
+          5
+        ],
+        [
+          "tweet",
+          5
+        ],
+        [
+          "lighting",
+          4
+        ]
+      ]
+    },
+    "qwen05b-few": {
+      "n": 1000,
+      "format_failures": 3,
+      "intent_errors": 226,
+      "invented_intent": 4,
+      "wrong_label": 219,
+      "intent_right_slots_wrong": 295,
+      "slot_error_kinds": {
+        "boundary": 52,
+        "wrong_type": 22,
+        "missed": 203,
+        "extra": 107,
+        "wrong_value": 12
+      },
+      "top_confusions": [
+        [
+          "general_quirky",
+          "qa_definition",
+          5
+        ],
+        [
+          "calendar_set",
+          "lists_createoradd",
+          4
+        ],
+        [
+          "calendar_set",
+          "alarm_set",
+          4
+        ],
+        [
+          "qa_factoid",
+          "general_quirky",
+          4
+        ],
+        [
+          "qa_factoid",
+          "qa_definition",
+          4
+        ],
+        [
+          "general_quirky",
+          "qa_factoid",
+          3
+        ],
+        [
+          "general_quirky",
+          "general_greet",
+          3
+        ],
+        [
+          "calendar_set",
+          "datetime_query",
+          3
+        ],
+        [
+          "general_quirky",
+          "lists_createoradd",
+          3
+        ],
+        [
+          "calendar_query",
+          "lists_query",
+          3
+        ]
+      ],
+      "invented_examples": [
+        [
+          "launch_audiobook",
+          1
+        ],
+        [
+          "iot_cisco_system",
+          1
+        ],
+        [
+          "travel_query",
+          1
+        ],
+        [
+          "internet_query",
+          1
+        ]
+      ]
+    },
+    "qwen05b-lora": {
+      "n": 1000,
+      "format_failures": 0,
+      "intent_errors": 169,
+      "invented_intent": 0,
+      "wrong_label": 169,
+      "intent_right_slots_wrong": 225,
+      "slot_error_kinds": {
+        "boundary": 71,
+        "wrong_type": 28,
+        "missed": 101,
+        "extra": 96,
+        "wrong_value": 4
+      },
+      "top_confusions": [
+        [
+          "general_quirky",
+          "qa_factoid",
+          8
+        ],
+        [
+          "calendar_set",
+          "calendar_query",
+          7
+        ],
+        [
+          "calendar_query",
+          "calendar_set",
+          6
+        ],
+        [
+          "qa_definition",
+          "general_quirky",
+          4
+        ],
+        [
+          "play_music",
+          "play_radio",
+          3
+        ],
+        [
+          "general_quirky",
+          "calendar_query",
+          3
+        ],
+        [
+          "calendar_query",
+          "recommendation_events",
+          3
+        ],
+        [
+          "play_game",
+          "play_music",
+          3
+        ],
+        [
+          "qa_factoid",
+          "general_quirky",
+          3
+        ],
+        [
+          "news_query",
+          "calendar_query",
+          2
+        ]
+      ],
+      "invented_examples": []
+    },
+    "qwen7b-zero": {
+      "n": 1000,
+      "format_failures": 29,
+      "intent_errors": 326,
+      "invented_intent": 14,
+      "wrong_label": 283,
+      "intent_right_slots_wrong": 448,
+      "slot_error_kinds": {
+        "boundary": 63,
+        "wrong_type": 109,
+        "missed": 200,
+        "extra": 319,
+        "wrong_value": 5
+      },
+      "top_confusions": [
+        [
+          "cooking_recipe",
+          "cooking_query",
+          22
+        ],
+        [
+          "datetime_query",
+          "datetime_convert",
+          18
+        ],
+        [
+          "calendar_set",
+          "alarm_set",
+          12
+        ],
+        [
+          "calendar_set",
+          "alarm_query",
+          11
+        ],
+        [
+          "general_quirky",
+          "qa_factoid",
+          8
+        ],
+        [
+          "calendar_set",
+          "calendar_query",
+          8
+        ],
+        [
+          "qa_factoid",
+          "weather_query",
+          8
+        ],
+        [
+          "weather_query",
+          "transport_traffic",
+          6
+        ],
+        [
+          "general_quirky",
+          "social_query",
+          6
+        ],
+        [
+          "calendar_query",
+          "alarm_query",
+          5
+        ]
+      ],
+      "invented_examples": [
+        [
+          "iot_hue_lightdown",
+          3
+        ],
+        [
+          "iot_lightoff",
+          3
+        ],
+        [
+          "iot_hue_lightstatus",
+          1
+        ],
+        [
+          "sport_type",
+          1
+        ],
+        [
+          "play_news",
+          1
+        ],
+        [
+          "cookery_query",
+          1
+        ],
+        [
+          "iot_wemo_other",
+          1
+        ],
+        [
+          "recommend_movies",
+          1
+        ],
+        [
+          "play_movie",
+          1
+        ],
+        [
+          "news_topic",
+          1
+        ]
+      ]
+    },
+    "qwen7b-few": {
+      "n": 1000,
+      "format_failures": 0,
+      "intent_errors": 125,
+      "invented_intent": 3,
+      "wrong_label": 122,
+      "intent_right_slots_wrong": 237,
+      "slot_error_kinds": {
+        "boundary": 70,
+        "wrong_type": 33,
+        "missed": 99,
+        "extra": 118,
+        "wrong_value": 1
+      },
+      "top_confusions": [
+        [
+          "general_quirky",
+          "qa_factoid",
+          9
+        ],
+        [
+          "calendar_set",
+          "calendar_query",
+          7
+        ],
+        [
+          "cooking_recipe",
+          "cooking_query",
+          4
+        ],
+        [
+          "general_quirky",
+          "qa_definition",
+          3
+        ],
+        [
+          "news_query",
+          "qa_factoid",
+          2
+        ],
+        [
+          "news_query",
+          "recommendation_events",
+          2
+        ],
+        [
+          "general_quirky",
+          "calendar_query",
+          2
+        ],
+        [
+          "general_quirky",
+          "news_query",
+          2
+        ],
+        [
+          "general_quirky",
+          "recommendation_locations",
+          2
+        ],
+        [
+          "calendar_query",
+          "recommendation_events",
+          2
+        ]
+      ],
+      "invented_examples": [
+        [
+          "crafting_query",
+          1
+        ],
+        [
+          "recommendations",
+          1
+        ],
+        [
+          "product_query",
+          1
+        ]
+      ]
+    }
+  },
+  "slot_f1_by_type": {
+    "qwen05b-zero": {
+      "date": {
+        "f1": 0.2131979695431472,
+        "n_gold": 132
+      },
+      "place_name": {
+        "f1": 0.11666666666666667,
+        "n_gold": 94
+      },
+      "event_name": {
+        "f1": 0.017543859649122806,
+        "n_gold": 84
+      },
+      "time": {
+        "f1": 0.061135371179039305,
+        "n_gold": 75
+      },
+      "person": {
+        "f1": 0.22077922077922077,
+        "n_gold": 75
+      },
+      "media_type": {
+        "f1": 0.0,
+        "n_gold": 43
+      },
+      "house_place": {
+        "f1": 0.0,
+        "n_gold": 30
+      },
+      "business_name": {
+        "f1": 0.0,
+        "n_gold": 29
+      },
+      "list_name": {
+        "f1": 0.06666666666666667,
+        "n_gold": 28
+      },
+      "weather_descriptor": {
+        "f1": 0.0,
+        "n_gold": 27
+      },
+      "transport_type": {
+        "f1": 0.13333333333333333,
+        "n_gold": 25
+      },
+      "food_type": {
+        "f1": 0.12903225806451613,
+        "n_gold": 24
+      }
+    },
+    "qwen05b-few": {
+      "date": {
+        "f1": 0.5736434108527131,
+        "n_gold": 132
+      },
+      "place_name": {
+        "f1": 0.6451612903225806,
+        "n_gold": 94
+      },
+      "event_name": {
+        "f1": 0.5333333333333333,
+        "n_gold": 84
+      },
+      "time": {
+        "f1": 0.5906040268456377,
+        "n_gold": 75
+      },
+      "person": {
+        "f1": 0.6074074074074074,
+        "n_gold": 75
+      },
+      "media_type": {
+        "f1": 0.7000000000000001,
+        "n_gold": 43
+      },
+      "house_place": {
+        "f1": 0.7058823529411764,
+        "n_gold": 30
+      },
+      "business_name": {
+        "f1": 0.7200000000000001,
+        "n_gold": 29
+      },
+      "list_name": {
+        "f1": 0.3461538461538462,
+        "n_gold": 28
+      },
+      "weather_descriptor": {
+        "f1": 0.6530612244897959,
+        "n_gold": 27
+      },
+      "transport_type": {
+        "f1": 0.8275862068965517,
+        "n_gold": 25
+      },
+      "food_type": {
+        "f1": 0.6666666666666666,
+        "n_gold": 24
+      }
+    },
+    "qwen05b-lora": {
+      "date": {
+        "f1": 0.8059701492537314,
+        "n_gold": 132
+      },
+      "place_name": {
+        "f1": 0.7868852459016393,
+        "n_gold": 94
+      },
+      "event_name": {
+        "f1": 0.6627906976744187,
+        "n_gold": 84
+      },
+      "time": {
+        "f1": 0.7027027027027026,
+        "n_gold": 75
+      },
+      "person": {
+        "f1": 0.7393939393939395,
+        "n_gold": 75
+      },
+      "media_type": {
+        "f1": 0.7764705882352941,
+        "n_gold": 43
+      },
+      "house_place": {
+        "f1": 0.9473684210526316,
+        "n_gold": 30
+      },
+      "business_name": {
+        "f1": 0.5666666666666665,
+        "n_gold": 29
+      },
+      "list_name": {
+        "f1": 0.7200000000000001,
+        "n_gold": 28
+      },
+      "weather_descriptor": {
+        "f1": 0.6779661016949152,
+        "n_gold": 27
+      },
+      "transport_type": {
+        "f1": 0.96,
+        "n_gold": 25
+      },
+      "food_type": {
+        "f1": 0.7457627118644068,
+        "n_gold": 24
+      }
+    },
+    "qwen7b-zero": {
+      "date": {
+        "f1": 0.20731707317073172,
+        "n_gold": 132
+      },
+      "place_name": {
+        "f1": 0.4689655172413793,
+        "n_gold": 94
+      },
+      "event_name": {
+        "f1": 0.1846153846153846,
+        "n_gold": 84
+      },
+      "time": {
+        "f1": 0.3908045977011494,
+        "n_gold": 75
+      },
+      "person": {
+        "f1": 0.529032258064516,
+        "n_gold": 75
+      },
+      "media_type": {
+        "f1": 0.04938271604938271,
+        "n_gold": 43
+      },
+      "house_place": {
+        "f1": 0.2285714285714286,
+        "n_gold": 30
+      },
+      "business_name": {
+        "f1": 0.33333333333333326,
+        "n_gold": 29
+      },
+      "list_name": {
+        "f1": 0.32835820895522383,
+        "n_gold": 28
+      },
+      "weather_descriptor": {
+        "f1": 0.36111111111111105,
+        "n_gold": 27
+      },
+      "transport_type": {
+        "f1": 0.6274509803921569,
+        "n_gold": 25
+      },
+      "food_type": {
+        "f1": 0.0,
+        "n_gold": 24
+      }
+    },
+    "qwen7b-few": {
+      "date": {
+        "f1": 0.7903225806451614,
+        "n_gold": 132
+      },
+      "place_name": {
+        "f1": 0.8216216216216216,
+        "n_gold": 94
+      },
+      "event_name": {
+        "f1": 0.6249999999999999,
+        "n_gold": 84
+      },
+      "time": {
+        "f1": 0.6956521739130435,
+        "n_gold": 75
+      },
+      "person": {
+        "f1": 0.7450980392156863,
+        "n_gold": 75
+      },
+      "media_type": {
+        "f1": 0.7529411764705882,
+        "n_gold": 43
+      },
+      "house_place": {
+        "f1": 0.8421052631578948,
+        "n_gold": 30
+      },
+      "business_name": {
+        "f1": 0.8214285714285715,
+        "n_gold": 29
+      },
+      "list_name": {
+        "f1": 0.6521739130434783,
+        "n_gold": 28
+      },
+      "weather_descriptor": {
+        "f1": 0.7272727272727273,
+        "n_gold": 27
+      },
+      "transport_type": {
+        "f1": 0.9387755102040817,
+        "n_gold": 25
+      },
+      "food_type": {
+        "f1": 0.7346938775510204,
+        "n_gold": 24
+      }
+    }
+  },
+  "pair": {
+    "both_right": 497,
+    "only_a_wrong": 141,
+    "only_b_wrong": 109,
+    "both_wrong": 253,
+    "same_wrong_answer": 71,
+    "same_wrong_examples": [
+      {
+        "id": "281",
+        "utt": "what is the exchange rate of us dollar to pound sterling",
+        "gold": [
+          "news_query",
+          [
+            [
+              "news_topic",
+              "exchange rate of us dollar to pound sterling"
+            ]
+          ]
+        ],
+        "both": [
+          "qa_currency",
+          [
+            [
+              "currency_name",
+              "us dollar"
+            ],
+            [
+              "currency_name",
+              "pound sterling"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "790",
+        "utt": "mild or heavy weather",
+        "gold": [
+          "weather_query",
+          [
+            [
+              "weather_descriptor",
+              "mild"
+            ],
+            [
+              "weather_descriptor",
+              "heavy"
+            ]
+          ]
+        ],
+        "both": [
+          "weather_query",
+          [
+            [
+              "weather_descriptor",
+              "mild or heavy"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "864",
+        "utt": "robot vacuum the living room now",
+        "gold": [
+          "iot_cleaning",
+          [
+            [
+              "house_place",
+              "living room"
+            ]
+          ]
+        ],
+        "both": [
+          "iot_cleaning",
+          [
+            [
+              "device_type",
+              "robot vacuum"
+            ],
+            [
+              "house_place",
+              "living room"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "891",
+        "utt": "play some christian music",
+        "gold": [
+          "play_music",
+          [
+            [
+              "music_descriptor",
+              "christian"
+            ]
+          ]
+        ],
+        "both": [
+          "play_music",
+          [
+            [
+              "music_genre",
+              "christian"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "1098",
+        "utt": "what day of the week does the fifteenth of march fall on",
+        "gold": [
+          "datetime_query",
+          [
+            [
+              "date",
+              "fifteenth of march"
+            ]
+          ]
+        ],
+        "both": [
+          "datetime_query",
+          [
+            [
+              "date",
+              "the fifteenth of march"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "1300",
+        "utt": "fast",
+        "gold": [
+          "audio_volume_up",
+          []
+        ],
+        "both": [
+          "general_quirky",
+          []
+        ]
+      },
+      {
+        "id": "2264",
+        "utt": "light color for study room",
+        "gold": [
+          "iot_hue_lightup",
+          [
+            [
+              "house_place",
+              "study room"
+            ]
+          ]
+        ],
+        "both": [
+          "iot_hue_lightchange",
+          [
+            [
+              "house_place",
+              "study room"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "2451",
+        "utt": "seven hundred",
+        "gold": [
+          "datetime_convert",
+          []
+        ],
+        "both": [
+          "qa_maths",
+          []
+        ]
+      },
+      {
+        "id": "2496",
+        "utt": "daily news",
+        "gold": [
+          "news_query",
+          []
+        ],
+        "both": [
+          "news_query",
+          [
+            [
+              "general_frequency",
+              "daily"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "3407",
+        "utt": "are there any forecasts of rain or snow this week",
+        "gold": [
+          "weather_query",
+          [
+            [
+              "weather_descriptor",
+              "rain or snow"
+            ],
+            [
+              "date",
+              "this week"
+            ]
+          ]
+        ],
+        "both": [
+          "weather_query",
+          [
+            [
+              "weather_descriptor",
+              "rain"
+            ],
+            [
+              "weather_descriptor",
+              "snow"
+            ],
+            [
+              "date",
+              "this week"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "3441",
+        "utt": "is the twenty second on a wednesday",
+        "gold": [
+          "datetime_query",
+          [
+            [
+              "date",
+              "twenty second"
+            ]
+          ]
+        ],
+        "both": [
+          "datetime_query",
+          [
+            [
+              "date",
+              "twenty second"
+            ],
+            [
+              "date",
+              "wednesday"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "3542",
+        "utt": "change the lights in the living room to green and red",
+        "gold": [
+          "iot_hue_lightchange",
+          [
+            [
+              "house_place",
+              "living room"
+            ],
+            [
+              "color_type",
+              "green and red"
+            ]
+          ]
+        ],
+        "both": [
+          "iot_hue_lightchange",
+          [
+            [
+              "house_place",
+              "living room"
+            ],
+            [
+              "color_type",
+              "green"
+            ],
+            [
+              "color_type",
+              "red"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "3780",
+        "utt": "play my midnight love playlist",
+        "gold": [
+          "play_music",
+          [
+            [
+              "playlist_name",
+              "midnight love"
+            ]
+          ]
+        ],
+        "both": [
+          "play_music",
+          [
+            [
+              "playlist_name",
+              "midnight love playlist"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "3912",
+        "utt": "i'd like to listen to hear a music of dance and country",
+        "gold": [
+          "play_music",
+          [
+            [
+              "music_genre",
+              "dance and country"
+            ]
+          ]
+        ],
+        "both": [
+          "play_music",
+          [
+            [
+              "music_genre",
+              "dance"
+            ],
+            [
+              "music_genre",
+              "country"
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "4601",
+        "utt": "tell me when it is five p. m.",
+        "gold": [
+          "alarm_set",
+          [
+            [
+              "time",
+              "five p. m."
+            ]
+          ]
+        ],
+        "both": [
+          "datetime_query",
+          [
+            [
+              "time",
+              "five p. m."
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "4896",
+        "utt": "lower the overhead lights",
+        "gold": [
+          "iot_hue_lightdim",
+          [
+            [
+              "house_place",
+              "overhead"
+            ]
+          ]
+        ],
+        "both": [
+          "iot_hue_lightdim",
+          []
+        ]
+      },
+      {
+        "id": "4955",
+        "utt": "would you love to see",
+        "gold": [
+          "iot_hue_lightchange",
+          []
+        ],
+        "both": [
+          "general_quirky",
+          []
+        ]
+      },
+      {
+        "id": "5378",
+        "utt": "s.",
+        "gold": [
+          "play_music",
+          []
+        ],
+        "both": [
+          "general_quirky",
+          []
+        ]
+      },
+      {
+        "id": "5614",
+        "utt": "what's on the radio right now",
+        "gold": [
+          "music_query",
+          []
+        ],
+        "both": [
+          "play_radio",
+          []
+        ]
+      },
+      {
+        "id": "6248",
+        "utt": "how old are you",
+        "gold": [
+          "general_quirky",
+          []
+        ],
+        "both": [
+          "qa_factoid",
+          []
+        ]
+      }
+    ]
+  },
+  "pair_names": [
+    "qwen05b-lora",
+    "qwen7b-few"
+  ]
+}
