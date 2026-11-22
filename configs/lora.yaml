@@ -1,4 +1,4 @@
-# LoRA fine-tune of Qwen2.5-0.5B-Instruct with mlx-lm (run via `ftvp-train`).
+# LoRA fine-tune of Qwen2.5-0.5B-Instruct with mlx-lm (run: python -m mlx_lm lora -c configs/lora.yaml).
 # Data = data/sft from `ftvp-prepare`; the loss covers the JSON answer only (mask_prompt).
 model: mlx-community/Qwen2.5-0.5B-Instruct-bf16
 train: true

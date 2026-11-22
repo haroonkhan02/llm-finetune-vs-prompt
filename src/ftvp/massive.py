@@ -1,7 +1,7 @@
 """MASSIVE loader: one utterance -> intent label + list of (slot type, value) pairs.
 
 Annotated utterances look like ``wake me up at [time : five am] [date : this week]``.
-Slots are kept as an ordered list, not a dict, because 4 % of English utterances repeat
+Slots are kept as an ordered list, not a dict, because about 3 % of English utterances repeat
 a slot type (e.g. two ``date`` values).
 """
 

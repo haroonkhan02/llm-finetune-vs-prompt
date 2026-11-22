@@ -113,8 +113,9 @@ ftvp-cost qwen05b-zero qwen05b-few qwen05b-lora qwen7b-zero qwen7b-few
 pytest -q
 ```
 
-The scoring commands read the committed runs in `reports/runs/`, so `ftvp-errors`,
-`ftvp-cost` and `ftvp-report --runs-dir reports/runs` work without downloading any model.
+The scoring commands read the committed runs in `reports/runs/`, so `ftvp-report --runs-dir
+reports/runs` and `ftvp-cost` work without any model; `ftvp-errors` also needs the dataset
+(for the list of training intents).
 A Claude few-shot run (`ftvp-run --backend anthropic:claude-opus-5-5`) requires an
 Anthropic API key and has not been run.
 

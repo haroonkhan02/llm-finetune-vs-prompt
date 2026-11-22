@@ -15,3 +15,6 @@ FUSED4=models/qwen05b-lora-fused-4bit
 ftvp-run --system finetuned --backend mlx:$SMALL --adapter $ADAPTER --name qwen05b-lora-rerun
 ftvp-run --system finetuned --backend mlx:$FUSED --name qwen05b-lora-fused
 ftvp-run --system finetuned --backend mlx:$FUSED4 --name qwen05b-lora-fused-4bit
+
+ftvp-report qwen05b-lora qwen05b-lora-rerun qwen05b-lora-fused qwen05b-lora-fused-4bit \
+    --ref qwen05b-lora --out fused --export
