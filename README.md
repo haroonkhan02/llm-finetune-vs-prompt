@@ -18,52 +18,12 @@ per 1,000 requests.
 → {"intent": "alarm_set", "slots": [["time", "five am"], ["date", "this week"]]}
 ```
 
-**Status: work in progress.** The LoRA model is trained and all five local systems are
-scored below. Error analysis, cost per 1,000 requests and a fused-adapter speed check come
-next.
+## What it does
 
-## Task and data
-
-[MASSIVE](https://github.com/alexa/massive) 1.1 (Amazon, CC BY 4.0), English only: 11,514
-train, 2,033 dev and 2,974 test utterances, 60 intents and 55 slot types. A third of the
-requests have no slot, and about 3 % repeat a slot type ("on monday and on friday"), so
-slots are a list of pairs, not a dict. Every system is scored on the same seeded subset of
-1,000 test utterances.
-
-From [`reports/data_check.md`](reports/data_check.md):
-
-| Check | Value |
-|---|---:|
-| Intent of the nearest training utterance (TF-IDF 1-NN, no LLM) | 73.5 % |
-| Gold intent among the 8 retrieved few-shot examples | 91.7 % |
-| Prompt tokens per request: zero-shot / few-shot (k=8) / fine-tuned | 529 / 797 / 33 |
-
-The 1-NN figure is the floor every model has to beat. The prompt lengths are the main cost
-argument for fine-tuning: the tuned model learns the label list and the format, so it does
-not pay for them on every request.
-
-## First results
-
-All systems on the same 1,000 test utterances, greedy decoding, one request at a time on an
-Apple M5. Full table with 95 % bootstrap intervals: [`reports/results.md`](reports/results.md).
-
-| System | Intent acc | Slot F1 | Exact match | Input tokens | Latency p50 |
-|---|---:|---:|---:|---:|---:|
-| Qwen2.5-0.5B zero-shot | 26.8 % | 6.7 % | 0.9 % | 529 | 0.28 s |
-| Qwen2.5-0.5B few-shot (k = 8) | 77.4 % | 58.8 % | 47.9 % | 797 | 0.24 s |
-| Qwen2.5-0.5B + LoRA | 83.1 % | 70.9 % | 60.6 % | 33 | 0.26 s |
-| Qwen2.5-7B zero-shot (4-bit) | 67.4 % | 30.6 % | 22.6 % | 529 | 1.34 s |
-| Qwen2.5-7B few-shot (4-bit) | 87.5 % | 71.4 % | 63.8 % | 797 | 1.57 s |
-
-Fifteen minutes of LoRA training lift the 0.5B model from unusable to roughly the level of
-a 7B model prompted with retrieved examples: slot F1 is the same within noise (paired
-difference 0.5 points, CI −2.6 to 3.9) and exact match is 3.2 points lower (CI 0.1 to 6.2),
-at about a sixth of the latency. Zero-shot, the 0.5B model invents intent names in about a
-third of its replies. The tuned model's short prompt does not make it faster yet, because
-decoding dominates and the adapter is applied unfused; the 7B model is also 4-bit while the
-0.5B runs in bf16, so speed is not a like-for-like hardware comparison.
-
-## Compared systems
+- Downloads Amazon MASSIVE (English), builds zero-shot, retrieved few-shot and fine-tuning prompts.
+- Trains a LoRA adapter on Qwen2.5-0.5B-Instruct with `mlx-lm` in about 15 minutes on an M5.
+- Runs every system on the same 1,000 test utterances and stores each reply, so scores can be recomputed without the model.
+- Scores intent accuracy, slot F1 and exact match with bootstrap intervals, breaks the errors down by kind, and estimates cost per 1,000 requests.
 
 ```mermaid
 flowchart LR
@@ -73,21 +33,70 @@ flowchart LR
     R --> F[few-shot prompts, k = 8]
     D --> Z[zero-shot prompt with all labels]
     Z & F --> Q[Qwen2.5-0.5B and Qwen2.5-7B]
-    L & Q --> P[reply parser] --> M[intent acc, slot F1, exact match, format, latency, cost]
+    L & Q --> P[reply parser] --> M[scores, error analysis, latency, cost]
 ```
 
-| System | Model | Prompt |
-|---|---|---|
-| Retrieval baseline | none | intent of the nearest train utterance |
-| Zero-shot | Qwen2.5-0.5B-Instruct, Qwen2.5-7B-Instruct | instructions + all labels |
-| Few-shot | same two | + 8 nearest training examples as chat turns |
-| Fine-tuned | Qwen2.5-0.5B-Instruct + LoRA (rank 16, 2 epochs) | one-line instruction |
-| API model (optional) | Claude | few-shot; requires an Anthropic API key |
+## Results
 
-Metrics: intent accuracy, slot precision/recall/F1 on (type, value) pairs, exact match,
-valid-JSON and exact-schema rates, share of slot values copied from the utterance, median
-and p95 latency on an M5, and cost per 1,000 requests. Differences between systems get
-paired bootstrap intervals.
+All systems on the same 1,000 test utterances, greedy decoding, one request at a time on an
+Apple M5. Intervals and the training curve: [`reports/results.md`](reports/results.md).
+
+| System | Intent acc | Slot F1 | Exact match | Input tokens | Latency p50 |
+|---|---:|---:|---:|---:|---:|
+| Nearest training utterance (no LLM) | 73.5 % | – | – | – | – |
+| Qwen2.5-0.5B zero-shot | 26.8 % | 6.7 % | 0.9 % | 529 | 0.28 s |
+| Qwen2.5-0.5B few-shot (k = 8) | 77.4 % | 58.8 % | 47.9 % | 797 | 0.24 s |
+| Qwen2.5-0.5B + LoRA | 83.1 % | 70.9 % | 60.6 % | 33 | 0.26 s |
+| Qwen2.5-7B zero-shot (4-bit) | 67.4 % | 30.6 % | 22.6 % | 529 | 1.34 s |
+| Qwen2.5-7B few-shot (4-bit) | 87.5 % | 71.4 % | 63.8 % | 797 | 1.57 s |
+
+Fifteen minutes of LoRA training take the 0.5B model from unusable to the level of a 7B
+model prompted with retrieved examples on slots (paired difference 0.5 points, CI −2.6 to
+3.9), at about a sixth of the latency. The 7B model stays ahead on exact match by 3.2
+points (CI 0.1 to 6.2), and that gap is almost entirely intent errors. Zero-shot, the 0.5B
+model invents intent names in about a third of its replies; the tuned model never does.
+
+The tuned model can be made faster without retraining
+([`reports/fused.md`](reports/fused.md)):
+
+| LoRA variant | On disk | Exact match | Latency p50 |
+|---|---:|---:|---:|
+| Adapter on the bf16 base | 34 MB + base | 60.6 % | 0.26 s |
+| Adapter fused into the weights (bf16) | 953 MB | 60.0 % | 0.22 s |
+| Fused, then quantised to 4-bit | 276 MB | 54.8 % | 0.08 s |
+
+Fusing removes the extra adapter matmuls from every decoding step; the 0.6-point change is
+within noise (CI −1.3 to 0.1). The 4-bit copy, at the same precision as the 7B model, is
+20 times faster than 7B few-shot but loses 5.8 points of exact match (CI −8.3 to −3.4),
+mostly on slots. An unfused rerun gave identical scores, so these are not run-to-run noise.
+
+### Where the errors are
+
+From [`reports/error_analysis.md`](reports/error_analysis.md) and
+[`reports/label_audit.md`](reports/label_audit.md):
+
+- The tuned model's slot mistakes are mostly boundaries ("the fifteenth of march" vs
+  "fifteenth of march") and missed or extra slots. It almost never invents a value (4 cases).
+- Both strong systems confuse MASSIVE's catch-all `general_quirky` with `qa_factoid`, and
+  `calendar_set` with `calendar_query`.
+- They give the same non-gold answer on 71 utterances. Reading all 71, I counted 13 where
+  the gold label looks wrong or the request is unlabelable ("s.", "fast"), 43 that are
+  defensible under a different convention ("green and red" as one slot or two), and 15
+  real model mistakes. Exact match therefore has a ceiling well below 100 % on this data.
+
+### Cost per 1,000 requests
+
+| System | Input tokens | M5 time | Same prompts on Claude Haiku 5.5 / Sonnet 5.5 / Opus 5.5 |
+|---|---:|---:|---:|
+| 0.5B + LoRA | 33 k | 4.5 min | not applicable (needs the tuned weights) |
+| 0.5B + LoRA, fused 4-bit | 33 k | 1.4 min | not applicable |
+| 0.5B few-shot | 804 k | 4.4 min | $0.09 / $1.81 / $3.61 |
+| 7B few-shot | 804 k | 27 min | $0.09 / $1.82 / $3.63 |
+
+The hosted prices are an estimate from list prices and Qwen token counts, without prompt
+caching. The fine-tuned model needs 24 times fewer input tokens; on local hardware that
+barely shows as time, because decoding about 20 output tokens dominates. Details in
+[`reports/cost.md`](reports/cost.md).
 
 ## Getting started
 
@@ -95,12 +104,19 @@ paired bootstrap intervals.
 uv venv --python 3.12 && source .venv/bin/activate
 uv pip install -e ".[dev,mlx]"
 ftvp-download      # MASSIVE 1.1 archive (40 MB), keeps only en-US
-ftvp-check --tokenizer mlx-community/Qwen2.5-0.5B-Instruct-4bit
 ftvp-prepare       # data/sft/{train,valid,test}.jsonl for mlx_lm.lora
 python -m mlx_lm lora -c configs/lora.yaml | tee outputs/train.log   # ~15 min on an M5
 scripts/run_all.sh # five systems x 1,000 requests, then ftvp-report
+scripts/run_fused.sh                       # fused and 4-bit fused adapter timing
+ftvp-errors qwen05b-zero qwen05b-few qwen05b-lora qwen7b-zero qwen7b-few --pair qwen05b-lora qwen7b-few
+ftvp-cost qwen05b-zero qwen05b-few qwen05b-lora qwen7b-zero qwen7b-few
 pytest -q
 ```
+
+The scoring commands read the committed runs in `reports/runs/`, so `ftvp-errors`,
+`ftvp-cost` and `ftvp-report --runs-dir reports/runs` work without downloading any model.
+A Claude few-shot run (`ftvp-run --backend anthropic:claude-opus-5-5`) requires an
+Anthropic API key and has not been run.
 
 ## Repository structure
 
@@ -114,13 +130,14 @@ llm-finetune-vs-prompt/
 │   ├── schema.py            # target JSON and a tolerant reply parser
 │   ├── metrics.py           # intent / slot / exact-match scores, bootstrap CIs
 │   ├── prompts.py           # zero-shot, retrieved few-shot, fine-tuned prompts
-│   ├── sft.py               # mlx-lm chat-format training data
-│   ├── check.py             # data stats, retrieval baseline, prompt lengths
+│   ├── sft.py, check.py     # mlx-lm training data, data checks
 │   ├── backends.py          # MLX (+ LoRA adapter), Anthropic, fake
 │   ├── runner.py            # resumable runs, one JSON record per request
-│   └── report.py            # scores, intervals, paired comparison, training curve
-├── scripts/run_all.sh       # runs every local system in sequence
-├── reports/                 # data check, results, compact per-request runs
+│   ├── report.py            # scores, intervals, paired comparison, training curve
+│   ├── errors.py            # error kinds, confusions, per-type F1, run overlap
+│   └── cost.py              # cost per 1,000 requests
+├── scripts/                 # run_all.sh, run_fused.sh
+├── reports/                 # results, error analysis, label audit, cost, compact runs
 └── tests/                   # synthetic fixtures, no data or model needed
 ```
 
@@ -128,14 +145,21 @@ llm-finetune-vs-prompt/
 
 | Decision | Why |
 |---|---|
-| Slots as `[type, value]` pairs | repeated types are common enough to matter |
-| Value-level slot F1 | a generative model returns strings, not token spans |
-| Parser forgives fences and prose, but records it | format compliance is a result, not a crash |
-| Few-shot examples retrieved by similarity | a stronger prompting baseline than fixed examples |
-| Same tokenizer family for 0.5B and 7B | prompt costs are directly comparable |
+| Few-shot examples retrieved by similarity | a strong prompting baseline; a weak one would flatter fine-tuning |
 | Loss on the answer only (`mask_prompt`) | the model should learn the labels, not the requests |
 | Warmup + cosine learning rate | a constant 1e-4 made the first steps worse than the base model |
-| Runs stored per request, re-scored from text | a parser fix never needs another model run |
+| Slots as `[type, value]` pairs, value-level F1 | repeated types are common; a generative model returns strings, not spans |
+| Parser forgives fences and prose, but records it | format compliance is a result, not a crash |
+| Paired bootstrap on the same utterances | differences of a few points need intervals, not point estimates |
+| Runs stored per request, re-scored from text | a parser or metric fix never needs another model run |
+
+## Limitations and next steps
+
+- One task, one language, one model family; 1,000 test utterances give intervals of about ±3 points.
+- The 7B model is 4-bit and the 0.5B model bf16, so speed is not a like-for-like hardware comparison.
+- Latency is batch size 1 on a laptop; a server with batching would change the cost picture.
+- The label audit is one person's reading, not a second annotation.
+- Next: constrained JSON decoding, a LoRA on the 7B model, distilling the 7B few-shot answers into the 0.5B model, and a Claude few-shot run.
 
 ## License
 
