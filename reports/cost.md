@@ -7,6 +7,8 @@ Local columns are measured on an Apple M5 (MLX, one request at a time). The API 
 | qwen05b-zero | 529,348 | 31,529 | 328 | 10,964 | 0.069 | 1.374 | 2.748 |
 | qwen05b-few | 804,003 | 19,745 | 263 | 13,667 | 0.090 | 1.805 | 3.611 |
 | qwen05b-lora | 33,348 | 20,554 | 269 | 13,390 | n/a | n/a | n/a |
+| qwen05b-lora-fused | 33,348 | 20,600 | 237 | 15,168 | n/a | n/a | n/a |
+| qwen05b-lora-fused-4bit | 33,348 | 20,472 | 82 | 43,850 | n/a | n/a | n/a |
 | qwen7b-zero | 529,348 | 22,381 | 1379 | 2,611 | 0.064 | 1.283 | 2.565 |
 | qwen7b-few | 804,003 | 20,848 | 1617 | 2,227 | 0.091 | 1.816 | 3.633 |
 

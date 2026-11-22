@@ -1,0 +1,7 @@
+{
+  "name": "qwen05b-lora-fused",
+  "system": "finetuned",
+  "backend": "mlx:qwen05b-lora-fused",
+  "adapter": null,
+  "max_tokens": 128
+}

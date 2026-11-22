@@ -35,6 +35,30 @@
       "claude-opus-5-5": null
     }
   },
+  "qwen05b-lora-fused": {
+    "n": 1000,
+    "input_tokens_per_1k": 33348.0,
+    "output_tokens_per_1k": 20600.0,
+    "m5_seconds_per_1k": 237.34704188784235,
+    "requests_per_hour": 15167.663230035827,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": null,
+      "claude-sonnet-5-5": null,
+      "claude-opus-5-5": null
+    }
+  },
+  "qwen05b-lora-fused-4bit": {
+    "n": 1000,
+    "input_tokens_per_1k": 33348.0,
+    "output_tokens_per_1k": 20472.0,
+    "m5_seconds_per_1k": 82.09753715910483,
+    "requests_per_hour": 43850.280100646734,
+    "api_usd_per_1k": {
+      "claude-haiku-5-5": null,
+      "claude-sonnet-5-5": null,
+      "claude-opus-5-5": null
+    }
+  },
   "qwen7b-zero": {
     "n": 1000,
     "input_tokens_per_1k": 529348.0,

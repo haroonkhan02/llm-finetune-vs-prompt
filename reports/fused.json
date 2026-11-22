@@ -1,0 +1,220 @@
+{
+  "runs": [
+    {
+      "name": "qwen05b-lora",
+      "n": 1000,
+      "intent_acc": 0.831,
+      "slot_p": 0.7038581856100105,
+      "slot_r": 0.7142857142857143,
+      "slot_f1": 0.7090336134453782,
+      "exact_match": 0.606,
+      "valid_json": 1.0,
+      "schema_ok": 1.0,
+      "clean": 1.0,
+      "grounded": 0.9895724713242962,
+      "ci": {
+        "intent_acc": [
+          0.808,
+          0.854
+        ],
+        "slot_f1": [
+          0.680161943319838,
+          0.7361041562343515
+        ],
+        "exact_match": [
+          0.575,
+          0.635
+        ]
+      },
+      "latency_p50": 0.25919700000667945,
+      "latency_p95": 0.4202393750019837,
+      "ttft_p50": 0.03585839549486991,
+      "input_tokens_p50": 33.0,
+      "output_tokens_p50": 20.0,
+      "truncated": 0,
+      "seconds_per_1k": 268.85734562322614,
+      "api_usd_per_1k": 0.0
+    },
+    {
+      "name": "qwen05b-lora-rerun",
+      "n": 1000,
+      "intent_acc": 0.831,
+      "slot_p": 0.7038581856100105,
+      "slot_r": 0.7142857142857143,
+      "slot_f1": 0.7090336134453782,
+      "exact_match": 0.606,
+      "valid_json": 1.0,
+      "schema_ok": 1.0,
+      "clean": 1.0,
+      "grounded": 0.9895724713242962,
+      "ci": {
+        "intent_acc": [
+          0.808,
+          0.854
+        ],
+        "slot_f1": [
+          0.680161943319838,
+          0.7361041562343515
+        ],
+        "exact_match": [
+          0.575,
+          0.635
+        ]
+      },
+      "latency_p50": 0.2642777709988877,
+      "latency_p95": 0.43514870799845085,
+      "ttft_p50": 0.03640389599604532,
+      "input_tokens_p50": 33.0,
+      "output_tokens_p50": 20.0,
+      "truncated": 0,
+      "seconds_per_1k": 277.0558697946253,
+      "api_usd_per_1k": 0.0
+    },
+    {
+      "name": "qwen05b-lora-fused",
+      "n": 1000,
+      "intent_acc": 0.83,
+      "slot_p": 0.6963730569948187,
+      "slot_r": 0.7111111111111111,
+      "slot_f1": 0.7036649214659686,
+      "exact_match": 0.6,
+      "valid_json": 1.0,
+      "schema_ok": 1.0,
+      "clean": 1.0,
+      "grounded": 0.9886010362694301,
+      "ci": {
+        "intent_acc": [
+          0.805,
+          0.853
+        ],
+        "slot_f1": [
+          0.6740890688259109,
+          0.7313984168865435
+        ],
+        "exact_match": [
+          0.567,
+          0.629
+        ]
+      },
+      "latency_p50": 0.2188294789957581,
+      "latency_p95": 0.3957407090056222,
+      "ttft_p50": 0.02291741600492969,
+      "input_tokens_p50": 33.0,
+      "output_tokens_p50": 20.0,
+      "truncated": 0,
+      "seconds_per_1k": 237.34704188784235,
+      "api_usd_per_1k": 0.0
+    },
+    {
+      "name": "qwen05b-lora-fused-4bit",
+      "n": 1000,
+      "intent_acc": 0.813,
+      "slot_p": 0.6416490486257929,
+      "slot_r": 0.6423280423280423,
+      "slot_f1": 0.6419883659439449,
+      "exact_match": 0.548,
+      "valid_json": 1.0,
+      "schema_ok": 1.0,
+      "clean": 1.0,
+      "grounded": 0.9746300211416491,
+      "ci": {
+        "intent_acc": [
+          0.789,
+          0.837
+        ],
+        "slot_f1": [
+          0.6109358569926393,
+          0.6707379134860052
+        ],
+        "exact_match": [
+          0.518,
+          0.58
+        ]
+      },
+      "latency_p50": 0.07903987499594223,
+      "latency_p95": 0.12277062502107583,
+      "ttft_p50": 0.015729520499007776,
+      "input_tokens_p50": 33.0,
+      "output_tokens_p50": 20.0,
+      "truncated": 0,
+      "seconds_per_1k": 82.09753715910483,
+      "api_usd_per_1k": 0.0
+    }
+  ],
+  "meta": {
+    "qwen05b-lora": {
+      "name": "qwen05b-lora",
+      "system": "finetuned",
+      "backend": "mlx:Qwen2.5-0.5B-Instruct-bf16+lora",
+      "adapter": "adapters/qwen05b-lora",
+      "max_tokens": 128
+    },
+    "qwen05b-lora-rerun": {
+      "name": "qwen05b-lora-rerun",
+      "system": "finetuned",
+      "backend": "mlx:Qwen2.5-0.5B-Instruct-bf16+lora",
+      "adapter": "adapters/qwen05b-lora",
+      "max_tokens": 128
+    },
+    "qwen05b-lora-fused": {
+      "name": "qwen05b-lora-fused",
+      "system": "finetuned",
+      "backend": "mlx:qwen05b-lora-fused",
+      "adapter": null,
+      "max_tokens": 128
+    },
+    "qwen05b-lora-fused-4bit": {
+      "name": "qwen05b-lora-fused-4bit",
+      "system": "finetuned",
+      "backend": "mlx:qwen05b-lora-fused-4bit",
+      "adapter": null,
+      "max_tokens": 128
+    }
+  },
+  "ref": "qwen05b-lora",
+  "paired": {
+    "qwen05b-lora-rerun": {
+      "slot_f1": {
+        "diff": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "p_not_better": 1.0
+      },
+      "exact_match": {
+        "diff": 0.0,
+        "lo": 0.0,
+        "hi": 0.0,
+        "p_not_better": 1.0
+      }
+    },
+    "qwen05b-lora-fused": {
+      "slot_f1": {
+        "diff": -0.00536869197940959,
+        "lo": -0.01349470116942042,
+        "hi": 0.0023069794664195564,
+        "p_not_better": 0.919
+      },
+      "exact_match": {
+        "diff": -0.006000000000000005,
+        "lo": -0.013000000000000012,
+        "hi": 0.0010000000000000009,
+        "p_not_better": 0.96
+      }
+    },
+    "qwen05b-lora-fused-4bit": {
+      "slot_f1": {
+        "diff": -0.06704524750143326,
+        "lo": -0.08886794181951485,
+        "hi": -0.04309264303787663,
+        "p_not_better": 1.0
+      },
+      "exact_match": {
+        "diff": -0.05799999999999994,
+        "lo": -0.08299999999999996,
+        "hi": -0.03399999999999992,
+        "p_not_better": 1.0
+      }
+    }
+  },
+  "training": null
+}

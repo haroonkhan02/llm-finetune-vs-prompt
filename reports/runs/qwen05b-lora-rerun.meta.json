@@ -1,0 +1,7 @@
+{
+  "name": "qwen05b-lora-rerun",
+  "system": "finetuned",
+  "backend": "mlx:Qwen2.5-0.5B-Instruct-bf16+lora",
+  "adapter": "adapters/qwen05b-lora",
+  "max_tokens": 128
+}

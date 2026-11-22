@@ -146,6 +146,8 @@ def main(argv: list[str] | None = None) -> None:
                     help="where the runs are (default outputs/runs; reports/runs = committed)")
     ap.add_argument("--export", action="store_true",
                     help="also write compact copies of the runs to reports/runs/")
+    ap.add_argument("--out", default="results",
+                    help="report name: reports/<out>.md and reports/<out>.json")
     ap.add_argument("--n-boot", type=int, default=1000)
     ap.add_argument("--config", default=None)
     args = ap.parse_args(argv)
@@ -176,8 +178,8 @@ def main(argv: list[str] | None = None) -> None:
             if meta.exists():
                 (out_dir / "runs" / meta.name).write_text(meta.read_text())
     text = render(rows, metas, args.ref, comps, curve, n)
-    (out_dir / "results.md").write_text(text, encoding="utf-8")
-    (out_dir / "results.json").write_text(json.dumps(
+    (out_dir / f"{args.out}.md").write_text(text, encoding="utf-8")
+    (out_dir / f"{args.out}.json").write_text(json.dumps(
         {"runs": rows, "meta": metas, "ref": args.ref, "paired": comps,
          "training": curve}, indent=2) + "\n", encoding="utf-8")
     print(text)
